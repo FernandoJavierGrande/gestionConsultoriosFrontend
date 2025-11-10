@@ -157,13 +157,15 @@ function Medicos() {
 
       if (response.ok) {
         fetchProfesionales();
+        showNotification("Profesional eliminado correctamente", "success");
       } else {
-        
-        alert("Error al eliminar el profesional");
+        const errorData = await response.json().catch(() => null);
+        const errorMessage = errorData?.message || "Error al eliminar el profesional";
+        showNotification(errorMessage, "error");
       }
     } catch (error) {
       console.error("Error:", error);
-      alert("Error al eliminar el profesional");
+      showNotification("Error al eliminar la especialidad", "error");
     }
   };
 

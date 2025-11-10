@@ -75,7 +75,7 @@ function Home() {
         </div>
 
         {/* Stats o información adicional */}
-        <div className="bg-white rounded-xl shadow-lg p-8">
+        {/* <div className="bg-white rounded-xl shadow-lg p-8">
           <h3 className="text-2xl font-bold text-gray-800 mb-6 text-center">
             Accesos Rápidos
           </h3>
@@ -99,7 +99,7 @@ function Home() {
               <div className="text-gray-600">Resultados Rápidos</div>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
