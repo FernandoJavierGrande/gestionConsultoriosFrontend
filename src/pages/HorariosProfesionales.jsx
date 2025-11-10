@@ -147,8 +147,8 @@ function HorariosProfesionales() {
       currentTime += duracionMinutos;
     }
     
-    // Horario de tarde: 14:00 - 20:00
-    currentTime = 14 * 60;
+    // Horario de tarde: 13:00 - 20:00
+    currentTime = 13 * 60;
     const endAfternoon = 20 * 60;
     
     while (currentTime < endAfternoon) {
@@ -361,7 +361,7 @@ function HorariosProfesionales() {
           {/* Horarios Tarde */}
           <div className="bg-white rounded-lg shadow overflow-hidden">
             <div className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-6 py-3">
-              <h3 className="font-semibold text-lg">Turno Tarde (14:00 - 20:00)</h3>
+              <h3 className="font-semibold text-lg">Turno Tarde (13:00 - 20:00)</h3>
             </div>
             <div className="p-6">
               <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
