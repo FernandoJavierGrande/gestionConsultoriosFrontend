@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { Plus, Edit2, Trash2, X, Search, Eye } from "lucide-react";
 
-const API_URL = "http://localhost:8080/api";
+// const API_URL = `${import.meta.env.VITE_API_URL}/api`;
+ const API_URL = "http://localhost:8080/api";
 
 function Especialidades() {
   const [especialidades, setEspecialidades] = useState([]);
@@ -29,6 +30,7 @@ function Especialidades() {
 
   const fetchEspecialidades = async () => {
     try {
+      // console.log("URL final:", `${API_URL}/api/especialidad`);
       const response = await fetch(`${API_URL}/especialidad`);
       const data = await response.json();
       setEspecialidades(data);

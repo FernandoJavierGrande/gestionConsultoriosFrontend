@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Plus, Edit2, Trash2, X, Search, Eye } from "lucide-react";
 
+// const API_URL = `${import.meta.env.VITE_API_URL}/api`;
 const API_URL = "http://localhost:8080/api";
 
 function Medicos() {
@@ -37,6 +38,7 @@ function Medicos() {
 
   const fetchProfesionales = async () => {
     try {
+      // console.log("URL Profesionales:", `${API_URL}/profesional`);
       const response = await fetch(`${API_URL}/profesional`);
       const data = await response.json();
       setProfesionales(data);
