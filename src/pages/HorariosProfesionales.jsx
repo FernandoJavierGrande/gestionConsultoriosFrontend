@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { Calendar, Clock, CheckCircle, XCircle } from "lucide-react";
 
-// const API_URL = `${import.meta.env.VITE_API_URL}/api`;
-const API_URL = "http://localhost:8080/api";
+ const API_URL = "https://gestion-clinica-back.onrender.com/api";
+// const API_URL = "http://localhost:8080/api";
 
 function HorariosProfesionales() {
   const [profesionales, setProfesionales] = useState([]);

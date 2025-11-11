@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { Home, Users, Stethoscope, Calendar, BriefcaseMedical, Hospital, LogOut } from "lucide-react";
+import { Home, Users, Stethoscope, Calendar, BriefcaseMedical, Hospital, LogOut, NotebookText } from "lucide-react";
 
 function Navbar({ onLogout }) {
   const location = useLocation();
@@ -9,7 +9,7 @@ function Navbar({ onLogout }) {
     { to: "/medicos", label: "Médicos", icon: Hospital },
     { to: "/turnos", label: "Turnos", icon: Calendar },
     { to: "/especialidades", label: "Especialidades", icon: BriefcaseMedical },
-    { to: "/horariosProfesionales", label: "Horarios", icon: BriefcaseMedical },
+    { to: "/horariosProfesionales", label: "Horarios", icon: NotebookText },
     
   ];
 
