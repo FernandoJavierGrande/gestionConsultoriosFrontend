@@ -8,62 +8,50 @@ import Especialidades from "./pages/Especialidades";
 import Login from "./pages/Login";
 import Navbar from "./components/Navbar";
 import HorariosProfesionales from "./pages/HorariosProfesionales";
+import Usuarios from "./pages/Usuarios";
 
 function App() {
+  const [usuarioActual, setUsuarioActual] = useState(null);
 
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  const handleLogin = (credentials) => {
-    // validar contra api
-    console.log("Login con:", credentials);
-    setIsAuthenticated(true);
+  const handleLogin = (usuario) => {
+    setUsuarioActual(usuario); // { id, user, permisos }
   };
 
   const handleLogout = () => {
-    setIsAuthenticated(false);
+    setUsuarioActual(null);
   };
 
-  if (!isAuthenticated) {
+  if (!usuarioActual) {
     return <Login onLogin={handleLogin} />;
   }
 
   return (
     <BrowserRouter>
       <div className="min-h-screen bg-gray-50">
-        <Navbar onLogout={handleLogout} />
+        <Navbar onLogout={handleLogout} usuarioActual={usuarioActual} />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route 
-            path="/pacientes" 
-            element={
+          <Route path="/pacientes" element={
+            <main className="max-w-7xl mx-auto px-4 py-8"><Pacientes /></main>
+          } />
+          <Route path="/medicos" element={
+            <main className="max-w-7xl mx-auto px-4 py-8"><Medicos /></main>
+          } />
+          <Route path="/turnos" element={
+            <main className="max-w-7xl mx-auto px-4 py-8"><Turnos /></main>
+          } />
+          <Route path="/Especialidades" element={
+            <main className="max-w-7xl mx-auto px-4 py-8"><Especialidades /></main>
+          } />
+          <Route path="/horariosProfesionales" element={<HorariosProfesionales />} />
+          {/* Solo admin puede ver usuarios */}
+          {usuarioActual.permisos === "admin" && (
+            <Route path="/usuarios" element={
               <main className="max-w-7xl mx-auto px-4 py-8">
-                <Pacientes />
+                <Usuarios usuarioActual={usuarioActual} />
               </main>
-            } 
-          />
-          <Route 
-            path="/medicos" 
-            element={
-              <main className="max-w-7xl mx-auto px-4 py-8">
-                <Medicos />
-              </main>
-            } 
-          />
-          <Route 
-            path="/turnos" 
-            element={
-              <main className="max-w-7xl mx-auto px-4 py-8">
-                <Turnos />
-              </main>
-            } 
-          /><Route 
-            path="/Especialidades" 
-            element={
-              <main className="max-w-7xl mx-auto px-4 py-8">
-                <Especialidades />
-              </main>
-            } 
-          /><Route path="/horariosProfesionales" element={<HorariosProfesionales />} />
+            } />
+          )}
         </Routes>
       </div>
     </BrowserRouter>

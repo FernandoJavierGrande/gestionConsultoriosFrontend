@@ -14,13 +14,14 @@ function Medicos() {
   const [searchTerm, setSearchTerm] = useState("");
   const [notification, setNotification] = useState({ show: false, message: "", type: "" });
   const [formData, setFormData] = useState({
+    apellido: "",
     nombre: "",
     cuil: "",
     telefono: "",
     mail: "",
     nacimiento: "",
     observaciones: "",
-    duracion_turno_id: 3,
+    duracionTurno: 15,
     matriculas: [{ numeroMatricula: "", especialidadId: "" }]
   });
 
@@ -70,20 +71,21 @@ function Medicos() {
       const method = editingId ? "PUT" : "POST";
 
       const body = {
+        apellido: formData.apellido,
         nombre: formData.nombre,
         cuil: formData.cuil,
         telefono: formData.telefono,
         mail: formData.mail,
         nacimiento: formData.nacimiento,
         observaciones: formData.observaciones,
-        duracion_turno_id: formData.duracion_turno_id,
+        duracionTurno: formData.duracionTurno,
         matriculas: formData.matriculas.map(m => ({
           numeroMatricula: m.numeroMatricula,
           especialidadId: parseInt(m.especialidadId)
         }))
       };
 
-      console.log("Enviando:", body); // Para debug
+      //console.log("Enviando:", body);
 
       const response = await fetch(url, {
         method,
@@ -111,13 +113,14 @@ function Medicos() {
     setEditingId(profesional.id);
     setViewMode(false);
     setFormData({
+      apellido: profesional.apellido,
       nombre: profesional.nombre,
       cuil: profesional.cuil,
       telefono: profesional.telefono,
       mail: profesional.mail,
       nacimiento: profesional.nacimiento,
       observaciones: profesional.observaciones || "",
-      duracion_turno_id: 3,
+      duracionTurno: profesional.duracionTurno || 15,
       matriculas: Array.isArray(profesional.matriculas) && profesional.matriculas.length > 0 
         ? profesional.matriculas.map(m => ({
             numeroMatricula: m.numeroMatricula || "",
@@ -132,13 +135,14 @@ function Medicos() {
     setEditingId(profesional.id);
     setViewMode(true);
     setFormData({
+      apellido: profesional.apellido,
       nombre: profesional.nombre,
       cuil: profesional.cuil,
       telefono: profesional.telefono,
       mail: profesional.mail,
       nacimiento: profesional.nacimiento,
       observaciones: profesional.observaciones || "",
-      duracion_turno_id: 3,
+      duracionTurno: profesional.duracionTurno || 15,
       matriculas: Array.isArray(profesional.matriculas) && profesional.matriculas.length > 0 
         ? profesional.matriculas.map(m => ({
             numeroMatricula: m.numeroMatricula || "",
@@ -176,13 +180,14 @@ function Medicos() {
     setEditingId(null);
     setViewMode(false);
     setFormData({
+      apellido: "",
       nombre: "",
       cuil: "",
       telefono: "",
       mail: "",
       nacimiento: "",
       observaciones: "",
-      duracion_turno_id: 3,
+      duracionTurno: 15,
       matriculas: [{ numeroMatricula: "", especialidadId: "" }]
     });
   };
@@ -206,6 +211,7 @@ function Medicos() {
   };
 
   const filteredProfesionales = profesionales.filter(prof =>
+    prof.apellido.toLowerCase().includes(searchTerm.toLowerCase()) ||
     prof.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
     prof.cuil.includes(searchTerm) ||
     (Array.isArray(prof.matriculas) && prof.matriculas.some(m => m.numeroMatricula.includes(searchTerm)))
@@ -245,7 +251,7 @@ function Medicos() {
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
           <input
             type="text"
-            placeholder="Buscar por nombre, matrícula o CUIL..."
+            placeholder="Buscar por Apellido, Nombre, matrícula o CUIL..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
@@ -258,6 +264,7 @@ function Medicos() {
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Apellido</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">CUIL</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Teléfono</th>
@@ -268,6 +275,7 @@ function Medicos() {
           <tbody className="bg-white divide-y divide-gray-200">
             {filteredProfesionales.map((prof) => (
               <tr key={prof.id} className="hover:bg-gray-50">
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{prof.apellido}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{prof.nombre}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{prof.cuil}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{prof.telefono}</td>
@@ -330,6 +338,18 @@ function Medicos() {
             <form onSubmit={handleSubmit} className="p-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                 <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Apellido *</label>
+                  <input
+                    type="text"
+                    required
+                    disabled={viewMode}
+                    value={formData.apellido}
+                    onChange={(e) => setFormData({ ...formData, apellido: e.target.value })}
+                    className={`w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900 ${viewMode ? 'bg-gray-100 cursor-not-allowed' : ''}`}
+                  />
+                </div>
+
+                <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Nombre *</label>
                   <input
                     type="text"
@@ -387,6 +407,23 @@ function Medicos() {
                     onChange={(e) => setFormData({ ...formData, nacimiento: e.target.value })}
                     className={`w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900 ${viewMode ? 'bg-gray-100 cursor-not-allowed' : ''}`}
                   />
+                </div>
+
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Duración del turno *</label>
+                  <select
+                    required
+                    disabled={viewMode}
+                    value={formData.duracionTurno}
+                    onChange={(e) => setFormData({ ...formData, duracionTurno: parseInt(e.target.value) })}
+                    className={`w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900 ${viewMode ? 'bg-gray-100 cursor-not-allowed' : ''}`}
+                  >
+                    <option value={15}>15 minutos</option>
+                    <option value={30}>30 minutos</option>
+                    <option value={45}>45 minutos</option>
+                    <option value={60}>60 minutos</option>
+                  </select>
                 </div>
 
                 <div className="md:col-span-2">
