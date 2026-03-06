@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { Plus, Trash2, X, Shield, User, KeyRound } from "lucide-react";
 
-// const API_URL = "https://gestion-clinica-back.onrender.com/api";
-const API_URL = "http://localhost:8080/api";
+const API_URL = "https://gestion-clinica-back.onrender.com/api";
+//const API_URL = "http://localhost:8080/api";
 
 function Usuarios({ usuarioActual }) {
   const [usuarios, setUsuarios] = useState([]);
@@ -12,7 +12,7 @@ function Usuarios({ usuarioActual }) {
   const [nuevaPassword, setNuevaPassword] = useState("");
   const [notification, setNotification] = useState({ show: false, message: "", type: "" });
   const [formData, setFormData] = useState({
-    user: "", password: "", permisos: "user", observaciones: ""
+    user: "", password: "", mail: "", permisos: "user", observaciones: ""
   });
 
   useEffect(() => {
@@ -45,7 +45,7 @@ function Usuarios({ usuarioActual }) {
       if (res.ok) {
         showNotification("Usuario creado correctamente", "success");
         setShowModal(false);
-        setFormData({ user: "", password: "", permisos: "user", observaciones: "" });
+        setFormData({ user: "", password: "", mail: "", permisos: "user", observaciones: "" });
         fetchUsuarios();
       } else {
         const err = await res.json().catch(() => null);
@@ -132,6 +132,7 @@ function Usuarios({ usuarioActual }) {
           <thead className="bg-gray-50">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Usuario</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Permisos</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Observaciones</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Acciones</th>
@@ -155,6 +156,7 @@ function Usuarios({ usuarioActual }) {
                     )}
                   </div>
                 </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{u.mail}</td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <span className={`px-3 py-1 rounded-full text-xs font-medium ${
                     u.permisos === "admin"
@@ -226,6 +228,18 @@ function Usuarios({ usuarioActual }) {
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white text-gray-900"
                   placeholder="••••••••"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Email *</label>
+                <input
+                  type="email"
+                  required
+                  value={formData.mail}
+                  onChange={(e) => setFormData({ ...formData, mail: e.target.value })}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white text-gray-900"
+                  placeholder="usuario@ejemplo.com"
                 />
               </div>
 

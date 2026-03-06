@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Stethoscope, Eye, EyeOff, Lock, User } from "lucide-react";
 
-// const API_URL = "https://gestion-clinica-back.onrender.com/api";
-const API_URL = "http://localhost:8080/api";
+const API_URL = "https://gestion-clinica-back.onrender.com/api";
+//const API_URL = "http://localhost:8080/api";
 
 function Login({ onLogin }) {
   const [formData, setFormData] = useState({ user: "", password: "" });

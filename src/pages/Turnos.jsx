@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight, User, X, Search, Printer } from "lucide-react";
 
-// const API_URL = "https://gestion-clinica-back.onrender.com/api";
-const API_URL = "http://localhost:8080/api";
+const API_URL = "https://gestion-clinica-back.onrender.com/api";
+//const API_URL = "http://localhost:8080/api";
 
 const DIAS = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
 
